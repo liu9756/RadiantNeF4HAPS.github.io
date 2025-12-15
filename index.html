@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RadiantNeF4HAPS — 3D Cosmic Radiation Neural Field</title>
-  <meta name="description" content="Interactive results and documentation for a 3D neural field of high‑altitude radiation (μSv/h) reconstructed from stratified CARI-derived data (NF1→NF4)."/>
+  <title>Ye Liu — RadiantNeF4HAPS (Portfolio Highlight)</title>
+  <meta name="description" content="Portfolio highlight: a 3D neural field of high-altitude radiation (μSv/h) reconstructed from stratified CARI-derived data (NF1→NF4), with interactive 2D/3D viewers and validation notes."/>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
   <style>
     :root {
       --bg: #0b0e14;
@@ -24,12 +25,18 @@
       --border: #22304a;
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg); color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
     a { color: var(--brand); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    header {
-      position: sticky; top: 0; z-index: 40; backdrop-filter: blur(8px);
-      background: linear-gradient(180deg, rgba(11,14,20,.85) 40%, rgba(11,14,20,0));
+
+    header{
+      position: sticky; top: 0; z-index: 40;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(11,14,20,.88) 45%, rgba(11,14,20,0));
       border-bottom: 1px solid var(--border);
     }
     .wrap { width: min(1200px, 92vw); margin: 0 auto; }
@@ -37,42 +44,78 @@
     .brand { display:flex; align-items:center; gap: 10px; font-weight: 800; letter-spacing: .2px; }
     .brand b { background: linear-gradient(90deg, var(--brand), var(--brand-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .nav a { padding: 8px 10px; color: var(--muted); font-weight: 600; }
-    .hero { display:grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items:center; padding: 40px 0 22px; }
-    h1 { font-size: clamp(28px, 2.4vw + 16px, 46px); margin: 10px 0 12px; line-height: 1.12; }
-    h2 { font-size: clamp(20px, 1.2vw + 12px, 28px); margin: 12px 0; }
-    p.lead { color: var(--muted); font-size: 15px; line-height: 1.6; }
-    .badge { display:inline-block; padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-weight: 600; font-size: 12px; }
-    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
-    .kpis { display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
-    .kpi { background: var(--card); border: 1px solid var(--border); padding: 14px 16px; border-radius: 12px; }
-    .kpi h3 { margin: 0; font-size: 14px; color: var(--muted); font-weight: 600; }
-    .kpi b { display:block; font-size: 22px; margin-top: 6px; letter-spacing: .2px; }
-    .cta { display:flex; gap:10px; margin-top: 14px; }
-    .btn { display:inline-flex; align-items:center; justify-content:center; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); background: #101828; color: #e8f1ff; font-weight: 700; }
-    .btn.primary { background: linear-gradient(90deg, var(--brand), var(--brand-2)); color: #0b0e14; border-color: transparent; }
-    .btn.small { padding: 8px 10px; font-size: 13px; }
+    .nav a:hover{ color: var(--text); text-decoration: none; }
+    .badge {
+      display:inline-block; padding: 6px 10px;
+      border: 1px solid var(--border); border-radius: 999px;
+      color: var(--muted); font-weight: 600; font-size: 12px;
+      white-space: nowrap;
+    }
+    .badge.tag { border-style: dashed; }
+    .badge.hot { color: #0b0e14; border-color: transparent; background: linear-gradient(90deg, var(--brand), var(--brand-2)); }
+
+    main { padding-bottom: 10px; }
 
     section { padding: 28px 0; }
+    h1 { font-size: clamp(28px, 2.4vw + 16px, 46px); margin: 10px 0 12px; line-height: 1.12; }
+    h2 { font-size: clamp(20px, 1.2vw + 12px, 28px); margin: 12px 0; }
+    h3 { margin: 0 0 8px; }
+    p.lead { color: var(--muted); font-size: 15px; line-height: 1.65; margin: 10px 0 0; }
+    .note { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+    .panel.soft { background: linear-gradient(180deg, rgba(18,24,38,1), rgba(18,24,38,.55)); }
+
     .grid { display:grid; gap: 14px; }
     .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
     .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
     .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
 
+    .hero { display:grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items:center; padding: 34px 0 16px; }
+
+    .kpis { display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+    .kpi { background: var(--card); border: 1px solid var(--border); padding: 14px 16px; border-radius: 12px; }
+    .kpi h3 { margin: 0; font-size: 14px; color: var(--muted); font-weight: 600; }
+    .kpi b { display:block; font-size: 22px; margin-top: 6px; letter-spacing: .2px; }
+    .cta { display:flex; flex-wrap: wrap; gap:10px; margin-top: 14px; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 14px; border-radius: 10px;
+      border: 1px solid var(--border); background: #101828;
+      color: #e8f1ff; font-weight: 800;
+    }
+    .btn.primary { background: linear-gradient(90deg, var(--brand), var(--brand-2)); color: #0b0e14; border-color: transparent; }
+    .btn.small { padding: 8px 10px; font-size: 13px; font-weight: 800; }
+
     figure { margin: 0; background: #0c1220; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
     figure img, figure iframe { width: 100%; display:block; }
-    figure figcaption { padding: 10px 12px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
-    .note { font-size: 13px; color: var(--muted); }
+    figure figcaption { padding: 10px 12px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); line-height: 1.55; }
 
     .viewer { display:grid; grid-template-columns: 280px 1fr; gap: 16px; align-items:start; }
     .viewer .controls { background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 12px; }
     .controls label { display:block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-    select, input[type="range"] { width: 100%; background: #0b1220; color: var(--text); border:1px solid var(--border); border-radius: 8px; padding: 8px; }
+    select, input[type="range"] {
+      width: 100%; background: #0b1220; color: var(--text);
+      border:1px solid var(--border); border-radius: 8px; padding: 8px;
+    }
     .legend { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; color: var(--muted); }
 
     .method-cards { display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .method { background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 14px; }
     .method h3 { margin: 0 0 6px; font-size: 15px; }
     .method p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* Added: cards layout used in Applications */
+    .cards { display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
+    .card { background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .card h3 { margin: 0 0 6px; font-size: 15px; }
+    .card p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .pillrow { display:flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+    .hr { height: 1px; background: var(--border); opacity: .8; margin: 14px 0; }
+
+    ul { margin: 8px 0 0 18px; color: var(--muted); }
+    li { line-height: 1.6; margin: 4px 0; }
 
     footer { border-top: 1px solid var(--border); padding: 20px 0 40px; color: var(--muted); font-size: 13px; }
 
@@ -82,6 +125,7 @@
       .grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
       .viewer { grid-template-columns: 1fr; }
       .method-cards { grid-template-columns: repeat(2, 1fr); }
+      .cards { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
       .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
@@ -89,37 +133,109 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="wrap nav">
-      <div class="brand">🚀 <b>RadiantNeF4HAPS</b><span class="badge">3D Neural Radiation Field</span></div>
+      <div class="brand">
+        🚀 <b>RadiantNeF4HAPS</b>
+        <span class="badge hot">Portfolio Highlight</span>
+        <span class="badge tag">Neural Fields</span>
+        <span class="badge tag">Simulation</span>
+        <span class="badge tag">Visualization</span>
+      </div>
       <nav>
-        <a href="#overview">Overview</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#overview">Project</a>
+        <a href="#fit">Fit</a>
         <a href="#results2d">2D</a>
         <a href="#results3d">3D</a>
         <a href="#methods">NF1–NF4</a>
+        <a href="#validation">Validation</a>
         <a href="#downloads">Downloads</a>
-        <a href="#validation">Validation &amp; Applications</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
-    <!-- Hero -->
+
+    <!-- Portfolio Context (new) -->
+    <section id="portfolio">
+      <h2>Portfolio Context</h2>
+      <div class="grid cols-2" style="margin-top:10px;">
+        <div class="panel soft">
+          <h3 style="margin-top:0;">Who I am</h3>
+          <p class="note">
+            I am Ye Liu. My work sits at the intersection of machine learning, perception, and simulation—especially when
+            models must become <i>operational</i> (measurable, testable, and deployable) rather than just accurate.
+          </p>
+          <div class="hr"></div>
+          <h3 style="margin:0 0 8px;">How to read this page (3 minutes)</h3>
+          <ul>
+            <li><b>Start</b> with the 60-second summary + KPIs (below).</li>
+            <li><b>Explore</b> the <a href="#results3d">3D viewers</a> (isosurfaces / slice slider / globe particles).</li>
+            <li><b>Scan</b> <a href="#methods">NF1–NF4</a> to see the full pipeline from data → model → visualization.</li>
+            <li><b>Check</b> <a href="#validation">validation notes</a> and <a href="#applications">applications</a>.</li>
+          </ul>
+        </div>
+
+        <div class="panel soft">
+          <h3 style="margin-top:0;">What this project demonstrates</h3>
+          <ul>
+            <li><b>Representation:</b> turning an invisible physical field into a continuous, queryable neural field.</li>
+            <li><b>Generalization:</b> longitude-blocked cross-validation rather than random splits.</li>
+            <li><b>Trustworthy visuals:</b> a fixed 0–22 μSv/h scale across heights to avoid misleading comparisons.</li>
+            <li><b>System thinking:</b> exportable artifacts (2D/3D viewers) meant for reuse and communication.</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="note">
+            If you are reviewing this as part of an application: the <a href="#fit">Research Fit</a> section explains how this
+            work connects to the teams I am applying to.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hero / Overview -->
     <section id="overview" class="hero">
       <div>
-        <h1>Global High‑Altitude Radiation — <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Neural Field Reconstruction</span></h1>
-        <p class="lead">We reconstruct a continuous 3D radiation field (μSv/h) over latitude–longitude–height using a physics‑aware neural representation trained on stratified CARI-derived samples (8–22 km). Results are exported to 2D/3D interactive visualizations with a <b>fixed 0–22 μSv/h</b> color scale across heights for trustworthy visual comparison.</p>
-        <div class="kpis">
-          <div class="kpi"><h3>NF3 CV RMSE<sub>log</sub></h3><b>0.059</b><span class="note">longitude-blocked 12‑fold</span></div>
-          <div class="kpi"><h3>NF3 CV MAPE</h3><b>4.09%</b><span class="note">μSv/h space</span></div>
-          <div class="kpi"><h3>Samples</h3><b>10,128</b><span class="note">8–22 km, multi‑latitude</span></div>
+        <h1>
+          Global High-Altitude Radiation —
+          <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">
+            Neural Field Reconstruction
+          </span>
+        </h1>
+        <p class="lead">
+          We reconstruct a continuous 3D radiation field (μSv/h) over latitude–longitude–height using a physics-aware neural
+          representation trained on stratified CARI-derived samples (8–22 km). Results are exported to 2D/3D interactive
+          visualizations with a <b>fixed 0–22 μSv/h</b> color scale across heights for trustworthy visual comparison.
+        </p>
+
+        <div class="pillrow">
+          <span class="badge">Task: global 3D field regression</span>
+          <span class="badge">Input: (lat, lon, height)</span>
+          <span class="badge">Output: dose rate (μSv/h)</span>
+          <span class="badge">Export: 2D slices + 3D HTML viewers</span>
         </div>
+
+        <div class="kpis">
+          <div class="kpi"><h3>NF3 CV RMSE<sub>log</sub></h3><b>0.059</b><span class="note">longitude-blocked 12-fold</span></div>
+          <div class="kpi"><h3>NF3 CV MAPE</h3><b>4.09%</b><span class="note">μSv/h space</span></div>
+          <div class="kpi"><h3>Samples</h3><b>10,128</b><span class="note">8–22 km, multi-latitude</span></div>
+        </div>
+
         <div class="cta">
           <a class="btn primary" href="#results3d">Explore 3D</a>
           <a class="btn" href="#results2d">See 2D slices</a>
+          <a class="btn small" href="#downloads">Downloads</a>
         </div>
+
+        <p class="note" style="margin-top:12px;">
+          <b>Background:</b> High-altitude radiation exposure matters for aviation, balloon/UAV sampling, and space-weather preparedness.
+          This project focuses on building a reusable representation that can be queried, visualized, and integrated into downstream studies.
+        </p>
       </div>
+
       <div class="panel">
         <figure>
           <img src="assets/lat_height.png" alt="Latitude vs Height radiation profile" />
@@ -128,16 +244,85 @@
       </div>
     </section>
 
-    <!-- 2D Results gallery -->
+    <!-- Research Fit (new, curated) -->
+    <section id="fit">
+      <h2>Research Fit</h2>
+      <p class="note">
+        This page is curated to highlight work most relevant to the teams I am applying to. The same project can be read through three lenses:
+        sensing &amp; visibility, space &amp; equity, and molecular-scale modeling.
+      </p>
+
+      <div class="grid cols-3" style="margin-top:12px;">
+        <div class="panel">
+          <h3 style="margin-top:0;">Camera Culture</h3>
+          <p class="note">
+            “Make the invisible visible.” I treat the radiation field as a sensing problem: convert an unseen physical phenomenon into a
+            learnable representation and a communicable visualization.
+          </p>
+          <ul>
+            <li>Neural field as an <b>instrument</b> (queryable field, not just plots).</li>
+            <li>Visualization as part of the scientific method (fixed scale, honest comparison).</li>
+            <li>Bridging perception ↔ inference ↔ decision.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin-top:0;">Space Enabled</h3>
+          <p class="note">
+            I care about how space-related technologies translate into measurable benefits on Earth—especially when constraints, access,
+            and fairness matter.
+          </p>
+          <ul>
+            <li>Field queries for <b>flight-route exposure</b> and operational planning.</li>
+            <li>“What-if” simulations for space-weather scenarios.</li>
+            <li>Sensor siting &amp; calibration as practical infrastructure.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin-top:0;">Molecular Machines</h3>
+          <p class="note">
+            While this project operates at planetary scale, the technical instinct is the same as molecular modeling: learn continuous
+            structures, validate generalization, and turn models into tools.
+          </p>
+          <ul>
+            <li>Continuous representations (fields) as a unifying abstraction.</li>
+            <li>Rigorous evaluation over “pretty demos.”</li>
+            <li>From prediction to usable artifact (viewers, exports, benchmarks).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="margin-top:0;">My role & contributions</h3>
+        <div class="grid cols-2">
+          <ul>
+            <li>Assembled and QC’d stratified CARI-derived samples across altitude bands (NF1).</li>
+            <li>Built baseline models and longitude-blocked evaluation to establish a realistic benchmark (NF2).</li>
+            <li>Implemented the neural-field model + Fourier features + export pipeline (NF3).</li>
+          </ul>
+          <ul>
+            <li>Designed consistent, comparative visualization outputs (fixed scale 0–22 μSv/h) (NF4).</li>
+            <li>Exported self-contained interactive HTML viewers for communication & reuse.</li>
+            <li>Documented physics checks and candidate downstream applications.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2D Results -->
     <section id="results2d">
-      <h2>2D Results (fixed color scale 0–22 μSv/h)</h2>
-      <p class="note">All slices share the same color scale for cross‑height comparability.</p>
-      
+      <h2>2D Results (fixed color scale 0–22 μSv/h)</h2>
+      <p class="note">All slices share the same color scale for cross-height comparability.</p>
+
       <div class="viewer" style="margin-top:10px;">
         <div class="controls">
           <label for="heightSel">Quick slice viewer</label>
           <select id="heightSel"></select>
           <p class="legend" style="margin-top:10px;">file → <span id="imgPath"></span></p>
+          <p class="note" style="margin-top:10px;">
+            Tip: if you only have time for one figure, use the slice viewer + the latitude–height plot in the hero section.
+          </p>
         </div>
         <figure>
           <img id="sliceImg" alt="Dose slice at selected height (μSv/h)" />
@@ -191,7 +376,10 @@
     <!-- 3D Results -->
     <section id="results3d">
       <h2>3D Exploration</h2>
-      <p class="note">These viewers are self‑contained HTMLs exported from the pipeline. If they don't load on GitHub Pages (cross‑origin limits), open them full‑page via the links below.</p>
+      <p class="note">
+        These viewers are self-contained HTMLs exported from the pipeline. If they don't load on GitHub Pages (cross-origin limits),
+        open them full-page via the links below.
+      </p>
 
       <div class="grid cols-3">
         <figure>
@@ -209,33 +397,72 @@
       </div>
     </section>
 
-    <!-- Methods: NF1–NF4 cards -->
+    <!-- Methods -->
     <section id="methods">
       <h2>Method Overview (NF1 → NF4)</h2>
       <div class="method-cards">
         <div class="method">
           <h3>NF1 — Data assembly</h3>
-          <p>Parse CARI‑formatted outputs into tidy (lat, lon, h, dose) tables; unify geodesy; filter &amp; QC; export features (CSV/Parquet). Summary stats confirm expected monotone patterns vs. altitude and latitude banding.</p>
+          <p>Parse CARI-formatted outputs into tidy (lat, lon, h, dose) tables; unify geodesy; filter &amp; QC; export features (CSV/Parquet). Summary stats confirm expected monotone patterns vs. altitude and latitude banding.</p>
         </div>
         <div class="method">
           <h3>NF2 — Baselines</h3>
-          <p>Longitude‑blocked CV with ridge regression on engineered features; typical <span class="legend">RMSE<sub>log</sub>≈0.269, MAPE≈22%</span>. Establishes a geospatial baseline.</p>
+          <p>Longitude-blocked CV with ridge regression on engineered features; typical <span class="legend">RMSE<sub>log</sub>≈0.269, MAPE≈22%</span>. Establishes a geospatial baseline.</p>
         </div>
         <div class="method">
           <h3>NF3 — Neural field</h3>
-          <p>MLP over periodic (sin/cos) lon/lat + normalized height with Fourier features; blocked CV across 12 longitude sectors: <span class="legend">RMSE<sub>log</sub>=0.059, MAPE=4.09%</span>; export <code>volume.npz</code> and per‑height grids.</p>
+          <p>MLP over periodic (sin/cos) lon/lat + normalized height with Fourier features; blocked CV across 12 longitude sectors: <span class="legend">RMSE<sub>log</sub>=0.059, MAPE=4.09%</span>; export <code>volume.npz</code> and per-height grids.</p>
         </div>
         <div class="method">
           <h3>NF4 — Visualization</h3>
-          <p>Consistent color‑scaled 2D slices (0–22 μSv/h), 3D isosurfaces, and globe particle views; ready for web &amp; Blender integration.</p>
+          <p>Consistent color-scaled 2D slices (0–22 μSv/h), 3D isosurfaces, and globe particle views; ready for web &amp; Blender integration.</p>
         </div>
       </div>
-      <p class="note" style="margin-top:10px;">Color scale consistency across heights is essential; otherwise equal colors could reflect different magnitudes.</p>
+      <p class="note" style="margin-top:10px;">
+        Color scale consistency across heights is essential; otherwise equal colors could reflect different magnitudes.
+      </p>
     </section>
 
-    <!-- Downloads / Links -->
+    <!-- Validation -->
+    <section id="validation" class="section">
+      <h2>Validation &amp; Physics Checks</h2>
+      <p class="note">We validated that the learned radiation field matches well-known space-physics trends and our curated reference data (NF1→NF3 pipeline):</p>
+      <ul>
+        <li><strong>Geomagnetic dependence:</strong> Dose rates increase with geomagnetic latitude. We confirmed this by correlating predicted dose with proxies of the geomagnetic field intensity (e.g., |B| or McIlwain-L approximations from position), showing stronger flux toward the poles and weaker near the equator.</li>
+        <li><strong>Altitude profile (8–22 km):</strong> The field rises with altitude across our range, consistent with ascent toward the Pfotzer region where secondary cosmic radiation peaks. Our QC samples show a high pass-rate for non-decreasing profiles with height.</li>
+        <li><strong>Cross-validation robustness:</strong> Longitude-blocked CV (30° bins) shows low RMSE<sub>log</sub> and single-digit MAPE on held-out longitudes, indicating good generalization across the globe.</li>
+      </ul>
+    </section>
+
+    <section id="applications" class="section">
+      <h2>Applications of the 3D Radiation Field</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Flight-route exposure</h3>
+          <p>Integrate the field along planned flight paths to estimate route-specific exposure envelopes under nominal space-weather conditions. Supports altitude selection and polar avoidance studies.</p>
+        </div>
+        <div class="card">
+          <h3>Space-weather “what-if”</h3>
+          <p>Use the neural field as a baseline and perturb with event multipliers to simulate solar proton events or geomagnetic storms for training and emergency response exercises.</p>
+        </div>
+        <div class="card">
+          <h3>Sensor siting &amp; calibration</h3>
+          <p>Plan balloon/UAV sampling campaigns by querying high-gradient regions; use predicted backgrounds to cross-calibrate instruments and de-bias measurements.</p>
+        </div>
+        <div class="card">
+          <h3>Education &amp; outreach</h3>
+          <p>Interactive slices and globes help explain why dose grows toward the poles and with height, connecting atmospheric cascades to observable exposure.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Downloads -->
     <section id="downloads">
       <h2>Downloads & Links</h2>
+      <p class="note">
+        You can open the interactive viewers directly, or download 2D slices for quick review.
+      </p>
+
       <div class="grid cols-3">
         <div class="panel">
           <h3 style="margin-top:0;">Interactive 3D (HTML)</h3>
@@ -245,57 +472,26 @@
             <li><a href="assets/3D/globe_points.html" target="_blank" rel="noopener">Globe particles</a></li>
           </ul>
         </div>
+
         <div class="panel">
           <h3 style="margin-top:0;">2D Slices (PNG)</h3>
           <ul id="dlSlices"></ul>
         </div>
+
         <div class="panel">
-          <h3 style="margin-top:0;">Data Exports</h3>
+          <h3 style="margin-top:0;">Artifacts</h3>
           <ul>
-            <li><a href="assets/3D/isosurfaces.html" target="_blank" rel="noopener">OBJ isosurfaces (in viewer)</a> — place .obj in <code>assets/isosurfaces/</code> to link files directly.</li>
-            <li>If available: <code>assets/volume.npz</code> (global grid).</li>
+            <li><span class="note">Code repository:</span> <a href="#" onclick="return false;">https://github.com/liu9756/RadiantNeF4HAPS</a></li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- Roadmap -->
-    <section id="validation" class="section">
-  <h2>Validation &amp; Physics Checks</h2>
-  <p>We validated that the learned radiation field matches well-known space‑physics trends and our curated reference data (NF1→NF3 pipeline):</p>
-  <ul>
-    <li><strong>Geomagnetic dependence:</strong> Dose rates increase with geomagnetic latitude. We confirmed this by correlating predicted dose with proxies of the geomagnetic field intensity (e.g., |B| or McIlwain‑L approximations from position), showing stronger flux toward the poles and weaker near the equator.</li>
-    <li><strong>Altitude profile (8–22 km):</strong> The field rises with altitude across our range, consistent with ascent toward the Pfotzer region where secondary cosmic radiation peaks. Our QC samples show a high pass‑rate for non‑decreasing profiles with height.</li>
-    <li><strong>Cross‑validation robustness:</strong> Longitude‑blocked CV (30° bins) shows low RMSE<sub>log</sub> and single‑digit MAPE on held‑out longitudes, indicating good generalization across the globe.</li>
-  </ul>
-</section>
-
-<section id="applications" class="section">
-  <h2>Applications of the 3D Radiation Field</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Flight‑route exposure</h3>
-      <p>Integrate the field along planned flight paths to estimate route‑specific exposure envelopes under nominal space‑weather conditions. Supports altitude selection and polar avoidance studies.</p>
-    </div>
-    <div class="card">
-      <h3>Space‑weather “what‑if”</h3>
-      <p>Use the neural field as a baseline and perturb with event multipliers to simulate solar proton events or geomagnetic storms for training and emergency response exercises.</p>
-    </div>
-    <div class="card">
-      <h3>Sensor siting &amp; calibration</h3>
-      <p>Plan balloon/UAV sampling campaigns by querying high‑gradient regions; use predicted backgrounds to cross‑calibrate instruments and de‑bias measurements.</p>
-    </div>
-    <div class="card">
-      <h3>Education &amp; outreach</h3>
-      <p>Interactive slices and globes help explain why dose grows toward the poles and with height, connecting atmospheric cascades to observable exposure.</p>
-    </div>
-  </div>
-</section>
   </main>
 
   <footer>
     <div class="wrap">
-      © <span id="yy"></span> RadiantNeF4HAPS · Built by Ye Liu — All visualizations use a uniform 0–22 μSv/h color scale unless explicitly noted.
+      © <span id="yy"></span> RadiantNeF4HAPS · Built by Ye Liu — All visualizations use a uniform 0–22 μSv/h color scale unless explicitly noted.
     </div>
   </footer>
 
@@ -304,18 +500,23 @@
     const sliceSel = document.getElementById('heightSel');
     const sliceImg = document.getElementById('sliceImg');
     const imgPath = document.getElementById('imgPath');
+
     const pad = v => v.toFixed(1);
+
+    // Populate select
     for (const h of HEIGHTS) {
       const opt = document.createElement('option');
       opt.value = h;
       opt.textContent = `${h.toFixed(1)} km`;
       sliceSel.appendChild(opt);
     }
+
     function setSlice(h) {
       const file = `assets/slice_${pad(h)}km.png`;
       sliceImg.src = file;
       imgPath.textContent = file;
     }
+
     sliceSel.addEventListener('change', e => setSlice(parseFloat(e.target.value)));
     setSlice(8);
     sliceSel.value = 8;
@@ -325,8 +526,13 @@
     HEIGHTS.forEach(h => {
       const p = `assets/slice_${pad(h)}km.png`;
       const li = document.createElement('li');
-      const a = document.createElement('a'); a.href = p; a.textContent = `${h.toFixed(1)} km PNG`; a.target = '_blank'; a.rel = 'noopener';
-      li.appendChild(a); dlList.appendChild(li);
+      const a = document.createElement('a');
+      a.href = p;
+      a.textContent = `${h.toFixed(1)} km PNG`;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      li.appendChild(a);
+      dlList.appendChild(li);
     });
 
     document.getElementById('yy').textContent = new Date().getFullYear();
